@@ -38,6 +38,27 @@ elif menu == "Adicionar":
             }
         response = requests.post(f"{API_URL}/produtos/criar", params=params)
         if response.status_code == 200:
-            st.success("Filme adicionado com sucesso")
+            st.success("Produto adicionado com sucesso")
         else:
-            st.error("Erro ao adicionar filme")
+            st.error("Erro ao adicionar o produto")
+
+elif menu == "Atualizar":
+    st.subheader("Atualizar um produto")
+    id_produto = st.number_input("Coloque o id do produto", min_value=1, step=1)
+    preco_novo = st.number_input("Coloque o novo preço")
+    nova_quantidade = st.number_input("Coloque a nova quantidade", step=1)
+
+    if st.button("Atualizar"):
+        params = {
+            "preco_novo": preco_novo,
+            "quantidade_novo": nova_quantidade,
+        }
+        response = requests.put(f"{API_URL}/produtos/atualizar/{id_produto}", params=params)
+        if response.status_code == 200:
+            params = response.json()
+            if "erro" in params:
+                st.warning(params["erro"])
+            else:
+                st.success("Produto atualizado com sucesso")
+        else:
+            st.error(f"Erro ao atualizar o produto")
