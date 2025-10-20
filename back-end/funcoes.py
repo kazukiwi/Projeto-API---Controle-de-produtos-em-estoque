@@ -41,9 +41,24 @@ def listar_produtos():
     if conexao:
         try:
             cursor.execute("""
-            SELECT * FROM estoque ORDER BY id
+            SELECT * FROM produtos ORDER BY id
              """)
             return cursor.fetchall()
+        except Exception as error:
+            print(f"Erro: {error}")
+        finally:
+            cursor.close()
+            conexao.close()
+
+def atualizar_produtos(preco_novo, quantidade_novo, id_produto):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute("""
+            UPDATE produtos SET preco = %s, quantidade = %s
+            WHERE id = %s
+            """,  (preco_novo, quantidade_novo, id_produto))
+            conexao.commit()
         except Exception as error:
             print(f"Erro: {error}")
         finally:
