@@ -8,3 +8,19 @@ def home():
     return {
         "mensagem": "Bem-vindo ao Controle de produtos!"
     }
+
+@app.get("/produtos/listar")
+def listar():
+    produtos = listar_produtos()
+    lista = []
+    for produto in produtos:
+        lista.append({
+            "id": produto[0],
+            "nome": produto[1],
+            "categoria": produto[2],
+            "preco": produto[3],
+            "quantidade": produto[4]
+        })
+    return {
+        "produtos": lista
+    }
