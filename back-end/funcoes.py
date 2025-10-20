@@ -64,3 +64,19 @@ def atualizar_produtos(preco_novo, quantidade_novo, id_produto):
         finally:
             cursor.close()
             conexao.close()
+
+def deletar_produto(id_produto):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute("""
+            DELETE FROM produtos 
+            WHERE id = %s
+            """, (id_produto,))
+            conexao.commit()
+        except Exception as error:
+            print(f"Erro: {error}")
+        finally:
+            cursor.close()
+            conexao.close()
+deletar_produto(3)
