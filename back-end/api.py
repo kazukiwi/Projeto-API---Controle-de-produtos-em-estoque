@@ -24,3 +24,8 @@ def listar():
     return {
         "produtos": lista
     }
+
+@app.post("/produtos/criar")
+def adicionar(nome: str, categoria: str, preco: float, quantidade: int):
+    adicionar_produto(nome, categoria, preco, quantidade)
+    return {"mensagem": "Filme adicionado com sucesso!"}
