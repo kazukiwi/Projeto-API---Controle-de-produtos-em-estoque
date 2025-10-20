@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from funcoes import adicionar_produto, listar_produtos, atualizar_produtos, deletar_produto
+from funcoes import adicionar_produto, listar_produtos, atualizar_produtos, deletar_produto, buscar_produto
 
 app = FastAPI(title="Controle de produtos em estoque")
 
@@ -29,3 +29,16 @@ def listar():
 def adicionar(nome: str, categoria: str, preco: float, quantidade: int):
     adicionar_produto(nome, categoria, preco, quantidade)
     return {"mensagem": "Filme adicionado com sucesso!"}
+
+@app.put("/produtos/atualizar/{id_produto}")
+def atualizar(id_produto: int, preco_novo: float, quantidade_novo: int):
+    produto = buscar_produto(id_produto)
+    if produto:
+        atualizar_produtos(preco_novo, quantidade_novo, id_produto)
+        return {
+            "mensagem": "Produto atualizado com sucesso"
+        }
+    else:
+        return{
+            "mensagem": "Porduto não encontrado"
+        }

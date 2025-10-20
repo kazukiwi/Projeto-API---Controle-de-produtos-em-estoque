@@ -89,7 +89,7 @@ def buscar_produto(id_produto):
         """, (id_produto,))
             return cursor.fetchone()
         except Exception as erro:
-            print(f"Erro ao buscar o filme: {erro}")
+            print(f"Erro ao buscar o produto: {erro}")
             return {}
         finally:
             cursor.close()
