@@ -7,7 +7,7 @@ st.title("Controle de produtos 🛒")
 
 API_URL = "http://127.0.0.1:8000"
 
-menu = st.sidebar.radio("Menu", ["Listar", "Criar", "Atualizar", "Deletar"])
+menu = st.sidebar.radio("Menu", ["Listar", "Adicionar", "Atualizar", "Deletar"])
 
 if menu == "Listar":
     st.subheader("Todos os produtos disponíveis 🍽")
@@ -21,3 +21,23 @@ if menu == "Listar":
             st.error("Produtos não encontrados!")
     else:
         st.error("Erro ao conectar na api")
+
+elif menu == "Adicionar":
+    st.subheader("Acrescentar um produto")
+    nome = st.text_input("Nome do produto")
+    categoria = st.text_input("Categoria do produto")
+    preco = st.number_input("Preço do produto", min_value=0.01)
+    quantidade = st.number_input("Quantidade do produto", min_value=1, step=1)
+
+    if st.button("Cadastrar"):
+        params = {
+            "nome": nome,
+            "categoria": categoria,
+            "preco": preco,
+            "quantidade": quantidade
+            }
+        response = requests.post(f"{API_URL}/produtos/criar", params=params)
+        if response.status_code == 200:
+            st.success("Filme adicionado com sucesso")
+        else:
+            st.error("Erro ao adicionar filme")
