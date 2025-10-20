@@ -79,3 +79,18 @@ def deletar_produto(id_produto):
         finally:
             cursor.close()
             conexao.close()
+
+def buscar_produto(id_produto):
+    conexao, cursor = conectar()
+    if conexao:  
+        try:
+            cursor.execute("""
+        SELECT * FROM produtos WHERE id = %s
+        """, (id_produto,))
+            return cursor.fetchone()
+        except Exception as erro:
+            print(f"Erro ao buscar o filme: {erro}")
+            return {}
+        finally:
+            cursor.close()
+            conexao.close()
