@@ -13,7 +13,7 @@ if menu == "Listar":
     st.subheader("Todos os produtos disponíveis 🍽")
     response = requests.get(f"{API_URL}/produtos/listar")
     if response.status_code == 200:
-        produtos = response.json().get("produtos", [])
+        produtos = response.json().get("produtos", {})
         if produtos:
             for produto in produtos:
                 st.write(f"**🍴{produto['nome']}** ({produto['categoria']})  \n 💵R${produto['preco']}  \n 🛒 Quantidade: {produto['quantidade']}")
@@ -21,6 +21,13 @@ if menu == "Listar":
             st.error("Produtos não encontrados!")
     else:
         st.error("Erro ao conectar na api")
+
+    valor_total_estoque = 0
+    for item in produtos:
+        valor_total_estoque += item["preco"] * item["quantidade"]
+    
+    st.subheader("Controle de Estoque")
+    st.write(f"Valor total em estoque: R$ {valor_total_estoque:.2f}")
 
 elif menu == "Adicionar":
     st.subheader("Acrescentar um produto")
