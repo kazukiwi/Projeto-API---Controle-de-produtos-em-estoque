@@ -42,3 +42,15 @@ def atualizar(id_produto: int, preco_novo: float, quantidade_novo: int):
         return{
             "mensagem": "Porduto não encontrado"
         }
+
+@app.delete("/produtos/deletar/{id_produto}")
+def deletar(id_produto: int):
+    produto = deletar_produto(id_produto)
+    if not produto:
+        return {
+            "mensagem": "Produto deletado com sucesso"
+        }
+    else:
+        return {
+            "mensagem": "Erro ao deletar o produto"
+        }
